@@ -1,0 +1,1 @@
+const express = require('express'); const router = express.Router(); const { createTenant, listTenants } = require('../controllers/tenantProvisionController'); router.post('/', createTenant); router.get('/', listTenants); module.exports = router;

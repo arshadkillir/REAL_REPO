@@ -1,0 +1,1 @@
+module.exports = (sequelize, DataTypes) => sequelize.define('Tenant', { id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true}, name:{type:DataTypes.STRING}, slug:{type:DataTypes.STRING,unique:true}, plan:{type:DataTypes.STRING,defaultValue:'trial'}, active:{type:DataTypes.BOOLEAN,defaultValue:false} },{ timestamps:true });

@@ -1,0 +1,1 @@
+const { Tenant } = require('../models'); async function provisionTenant({ name, plan='trial' }){ const slug = name.toLowerCase().replace(/[^a-z0-9]+/g,'-'); const ex = await Tenant.findOne({ where:{ slug } }); if(ex) return ex; const t = await Tenant.create({ name, slug, plan, active: plan==='trial' }); return t; } module.exports = { provisionTenant };
