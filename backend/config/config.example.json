@@ -1,0 +1,20 @@
+﻿{
+  "development": {
+    "username": "pos",
+    "password": "pospass",
+    "database": "posdb",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "pos",
+    "password": "pospass",
+    "database": "posdb_test",
+    "host": "db",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "postgres"
+  }
+}
