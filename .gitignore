@@ -17,3 +17,6 @@ backend/.env
 # nested accidental folders
 /pos-all/pos-all
 /frontend/frontend
+
+/repo-dupes-archive
+

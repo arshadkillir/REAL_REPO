@@ -1,4 +1,0 @@
-[
-  { "id": "t1", "name": "Outlet Abu Dhabi", "status": "online", "devices": 4, "plan": "Pro" },
-  { "id": "t2", "name": "Outlet Dubai", "status": "offline", "devices": 0, "plan": "Starter" }
-]
