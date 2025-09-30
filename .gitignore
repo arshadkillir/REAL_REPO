@@ -6,3 +6,14 @@ env.*
 *.log
 backend/.env
 .env
+# archived duplicates
+/repo-dupes-archive
+
+# envs and backups
+*.env
+*.env.bak
+*.bak
+
+# nested accidental folders
+/pos-all/pos-all
+/frontend/frontend
