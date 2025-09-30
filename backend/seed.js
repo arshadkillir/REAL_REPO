@@ -1,1 +1,0 @@
-const { Tenant } = require('./models'); module.exports = async function seed(){ try{ const count = await Tenant.count(); if(count>0) return; await require('./services/tenantProvisioner').provisionTenant({ name:'Demo Restaurant', plan:'pro', seedDemo:true }); console.log('seeded demo tenant'); }catch(e){ console.error('seed error', e); } };
