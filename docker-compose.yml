@@ -1,11 +1,10 @@
-﻿version: "3.8"
-services:
+﻿services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: 
-      POSTGRES_PASSWORD: 
-      POSTGRES_DB: 
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
     volumes:
       - db-data:/var/lib/postgresql/data
     networks:
@@ -25,6 +24,7 @@ services:
       - ./backend:/app:delegated
     networks:
       - posnet
+    command: ["npm","run","start"]
 
   frontend:
     build:
@@ -45,11 +45,3 @@ volumes:
 networks:
   posnet:
     driver: bridge
-
-services:
-  backend:
-    build: ./backend
-    command: ["npm","run","start"]
-    ports:
-      - "4000:4000"
-
