@@ -1,8 +1,8 @@
 ﻿FROM node:18-alpine
-WORKDIR /app
+WORKDIR /usr/src/app
 ENV NODE_ENV=development
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 EXPOSE 4000
-CMD ["sh","-c","npm run dev"]
+CMD ["npm","run","dev"]
