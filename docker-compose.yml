@@ -45,3 +45,11 @@ volumes:
 networks:
   posnet:
     driver: bridge
+
+services:
+  backend:
+    build: ./backend
+    command: ["npm","run","start"]
+    ports:
+      - "4000:4000"
+
