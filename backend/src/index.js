@@ -25,8 +25,15 @@ app.get('/api/health', async (req, res) => {
 app.get('/api/ping', (req, res) => res.json({ pong: true }));
 
 const port = process.env.PORT || 4000;
+
+/* compatibility route added by automation: respond to /v1/ for frontend proxy */
+app.get('/v1/', function(req, res) {
+  res.json({ status: 'ok', message: 'v1 root' });
+});
+
 app.listen(port, () => console.log(`Backend listening on ${port}`));
 
 
 try { require('./health-route')(app); } catch(e) { console.error('attachHealth failed', e && e.message); }
+
 
