@@ -1,4 +1,4 @@
-require('dotenv').config();
+﻿require('dotenv').config();
 
 const express = require('express');
 const http = require('http');
@@ -8,7 +8,8 @@ const { sequelize } = require('./models'); // ensure ./models exports sequelize
 const { injectTenant } = require('./middleware/tenantLoader'); // optional
 const tenantResolver = require('./middleware/tenantResolver'); // optional
 
-const app = express();
+const app = express();
+try { require('./src/health-route')(app); } catch(e) { console.error('attachHealth failed', e && e.message); }
 
 // Stripe webhook raw body parser for that specific route
 app.use((req, res, next) => {
@@ -89,3 +90,4 @@ async function start() {
 }
 
 start();
+
