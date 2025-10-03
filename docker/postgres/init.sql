@@ -1,0 +1,1 @@
+﻿CREATE ROLE posuser WITH LOGIN PASSWORD 'changeme';
