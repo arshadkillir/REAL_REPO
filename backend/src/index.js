@@ -26,3 +26,8 @@ app.get('/api/ping', (req, res) => res.json({ pong: true }));
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`Backend listening on ${port}`));
+
+
+try { require('./health-route')(app); } catch(e) { console.error('attachHealth failed', e && e.message); }
+
+
