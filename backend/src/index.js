@@ -7,7 +7,7 @@ app.use(express.json());
 
 const pool = new Pool({
   host: process.env.DB_HOST || 'db',
-  port: process.env.DB_PORT || 5432,
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
   user: process.env.DB_USERNAME || 'posuser',
   password: process.env.DB_PASSWORD || 'changeme',
   database: process.env.DB_DATABASE || 'pos_dev'
@@ -24,9 +24,26 @@ app.get('/api/health', async (req, res) => {
 
 app.get('/api/ping', (req, res) => res.json({ pong: true }));
 
-const port = process.env.PORT || 4000;
+// Attach optional external health-route module if present
+try {
+  const hr = require('./health-route');
+  if (typeof hr === 'function') { hr(app); }
+} catch (e) {
+  console.error('attachHealth failed', e && e.message);
+}
+
+// TEMP: add /XR2 health endpoint for quick testing (idempotent)
+try {
+  if (typeof app !== 'undefined' && app && !app._xr2_temp_added) {
+    app.get('/XR2', function (req, res) { res.status(200).send('ok'); });
+    app._xr2_temp_added = true;
+    console.log('TEMP: /XR2 route added');
+  }
+} catch (e) {
+  console.error('TEMP: failed to add /XR2', e && e.message);
+}
+
+const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
 app.listen(port, () => console.log(`Backend listening on ${port}`));
 
-
-try { require('./health-route')(app); } catch(e) { console.error('attachHealth failed', e && e.message); }
-
+module.exports = app;
