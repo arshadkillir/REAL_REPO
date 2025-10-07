@@ -1,6 +1,1 @@
-module.exports = (sequelize, DataTypes) => sequelize.define('MenuItem', {
-  id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
-  name:{type:DataTypes.STRING,allowNull:false},
-  price:{type:DataTypes.FLOAT,defaultValue:0},
-  tenantId:{type:DataTypes.INTEGER}
-},{ timestamps:true });
+﻿'use strict'; module.exports = (sequelize, DataTypes) => { const MenuItem = sequelize.define('MenuItem', { name: DataTypes.STRING, category: DataTypes.STRING, price: DataTypes.FLOAT, tenantId: DataTypes.INTEGER }, {}); return MenuItem; };

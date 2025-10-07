@@ -1,47 +1,47 @@
-﻿services:
-  db:
+version: '3.9'
+
+services:
+  posall-db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
-      POSTGRES_DB:
+      POSTGRES_USER: pos
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: posdb
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     networks:
-      - posnet
+      default:
+        aliases:
+          - db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pos -d posdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    env_file:
-      - .env
+    build: ./backend
+    env_file: ./backend/.env
+    restart: unless-stopped
     ports:
       - "4000:4000"
     depends_on:
-      - db
+      posall-db:
+        condition: service_healthy
     volumes:
-      - ./backend:/app:delegated
-    networks:
-      - posnet
-    command: ["npm","run","start"]
+      - ./backend:/app
+    command: sh -c "npm run migrate && npm run seed && npm run start"
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
+    build: ./frontend
+    env_file: ./frontend/.env
+    restart: unless-stopped
     ports:
-      - "3000:3000"
-    environment:
-      - VITE_API_BASE_URL=http://localhost:4000/api
+      - "3000:5173"
+    depends_on:
+      - backend
     volumes:
-      - ./frontend:/app:delegated
-    networks:
-      - posnet
+      - ./frontend:/app
 
 volumes:
-  db-data:
-
-networks:
-  posnet:
-    driver: bridge
+  db_data:

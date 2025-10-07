@@ -1,0 +1,56 @@
+﻿require('dotenv').config();
+const express = require('express');
+const http = require('http');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const db = require('./models');
+const tenantResolver = require('./middleware/tenantResolver');
+
+const app = express();
+
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/billing/webhook') {
+    bodyParser.raw({ type: '*/*' })(req, res, () => {
+      req.rawBody = req.body;
+      next();
+    });
+  } else {
+    bodyParser.json()(req, res, next);
+  }
+});
+
+app.use(cors());
+app.use(tenantResolver);
+
+app.get('/health', (req, res) => res.json({ ok: true }));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/tenants', require('./routes/tenantRoutes'));
+app.use('/api/menu', require('./routes/menuRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
+app.use('/api/inventory', require('./routes/inventoryRoutes'));
+app.use('/api/billing', require('./routes/billingRoutes'));
+
+const server = http.createServer(app);
+const { Server } = require('socket.io');
+const io = new Server(server, { cors: { origin: '*' } });
+global.io = io;
+
+io.on('connection', (socket) => {
+  console.log('socket connected', socket.id);
+  socket.on('join-tenant', (tenantId) => socket.join('tenant_' + tenantId));
+});
+
+async function start() {
+  try {
+    await db.sequelize.sync();
+    const seed = require('./seed');
+    await seed();
+    const PORT = process.env.PORT || 4000;
+    server.listen(PORT, '0.0.0.0', () => console.log(`Backend listening on ${PORT}`));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+}
+
+start();

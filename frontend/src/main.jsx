@@ -1,13 +1,1 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-
-function App(){
-  return (
-    <div style={{ padding: 24 }}>
-      <h1>POS Frontend (Vite)</h1>
-      <p>API: {import.meta.env.VITE_API_BASE_URL}</p>
-    </div>
-  );
-}
-
-createRoot(document.getElementById('root')).render(<App />);
+import React from 'react'; import { createRoot } from 'react-dom/client'; import { BrowserRouter, Routes, Route } from 'react-router-dom'; import App from './App'; import Orders from './routes/Orders'; import Inventory from './routes/Inventory'; import Subscriptions from './routes/Subscriptions'; import Login from './routes/Login'; import './styles.css'; createRoot(document.getElementById('root')).render(<BrowserRouter><Routes><Route path='/' element={<App/>}><Route index element={<Orders/>} /><Route path='inventory' element={<Inventory/>} /><Route path='subscriptions' element={<Subscriptions/>} /><Route path='login' element={<Login/>} /></Route></Routes></BrowserRouter>);

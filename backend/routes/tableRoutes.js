@@ -1,1 +1,0 @@
-const express = require('express'); const router = require('express').Router(); const { listTables, createTable } = require('../controllers/tableController'); router.get('/', listTables); router.post('/', createTable); module.exports = router;

@@ -1,1 +1,1 @@
-const express = require('express'); const router = express.Router(); const billing = require('../controllers/billingController'); router.post('/create-checkout-session', billing.createCheckoutSession); router.post('/webhook', billing.handleWebhookRaw); module.exports = router;
+﻿const express = require('express'); const router = express.Router(); const billing = require('../controllers/billingController'); router.post('/create-checkout-session', billing.createCheckoutSession); router.post('/webhook', billing.webhook); module.exports = router;

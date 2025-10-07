@@ -1,7 +1,7 @@
-FROM node:18-alpine
+﻿FROM node:18-alpine
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production
+RUN npm ci --production
 COPY . .
 EXPOSE 4000
-CMD ["node","server.js"]
+CMD ["npm","run","start"]
