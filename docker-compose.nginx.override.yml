@@ -1,0 +1,12 @@
+﻿services:
+  nginx:
+    image: pos-all-nginx-custom:1.0
+    container_name: pos-all-nginx-1
+    networks:
+      - pos-all_webnet
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
